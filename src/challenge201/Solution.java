@@ -1,7 +1,6 @@
 package challenge201;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
 
