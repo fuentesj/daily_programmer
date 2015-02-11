@@ -1,4 +1,4 @@
-package challenge200;
+package challenge200_easy;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,7 +30,7 @@ public class Solution {
         String inputFileName = scanner.nextLine();
 
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("input-files/challenge200/" + inputFileName));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("input-files/challenge200_easy/" + inputFileName));
             List<String[]> grid = buildGrid(bufferedReader);
             List<String> floodFillStartingInfo = Arrays.asList(bufferedReader.readLine().split(" "));
             floodFillGrid(grid, Integer.parseInt(floodFillStartingInfo.get(1)), Integer.parseInt(floodFillStartingInfo.get(0)), floodFillStartingInfo.get(2));

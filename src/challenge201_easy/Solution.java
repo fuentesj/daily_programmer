@@ -1,4 +1,4 @@
-package challenge201;
+package challenge201_easy;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

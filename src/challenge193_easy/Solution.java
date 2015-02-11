@@ -1,4 +1,4 @@
-package challenge193;
+package challenge193_easy;
 
 import java.util.*;
 
