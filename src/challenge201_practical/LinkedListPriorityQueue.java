@@ -1,20 +1,21 @@
 package challenge201_practical;
 
+import java.util.Iterator;
 /**
  * Created by Jonathan on 2/11/15.
  */
-public class LinkedListPriorityQueue<V, P1, P2> implements Iterable<V, P1, P2> {
+public class LinkedListPriorityQueue<T, S, V> implements Iterable<LinkedListPriorityQueue.Node<T, S, V>> {
 
-    private Node<P1, P2, V> root;
+    private Node<T, S, V> root;
 
-    private static class Node<P1, P2, V> {
+    public static class Node<T, S, V> {
 
         private V value;
-        private P1 priorityOne;
-        private P2 priorityTwo;
+        private T priorityOne;
+        private S priorityTwo;
 
 
-        public Node(V value, P1 priorityOne, P2 priorityTwo) {
+        public Node(V value, T priorityOne, S priorityTwo) {
             this.value = value;
             this.priorityOne = priorityOne;
             this.priorityTwo = priorityTwo;
@@ -28,21 +29,38 @@ public class LinkedListPriorityQueue<V, P1, P2> implements Iterable<V, P1, P2> {
             this.value = value;
         }
 
-        public P1 getPriorityOne() {
+        public T getPriorityOne() {
             return priorityOne;
         }
 
-        public void setPriorityOne(P1 priorityOne) {
+        public void setPriorityOne(T priorityOne) {
             this.priorityOne = priorityOne;
         }
 
-        public P2 getPriorityTwo() {
+        public S getPriorityTwo() {
             return priorityTwo;
         }
 
-        public void setPriorityTwo(P2 priorityTwo) {
+        public void setPriorityTwo(S priorityTwo) {
             this.priorityTwo = priorityTwo;
         }
+    }
+
+    public Iterator<Node<T,S, V>> iterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator {
+
+        private LinkedListPriorityQueue.Node<T, S, V> current;
+
+        public boolean hasNext() {
+            return true;
+        }
+
+        public LinkedListPriorityQueue.Node<T, S, V> next() {
+            return current;
+       }
     }
 
 }
