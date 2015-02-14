@@ -83,7 +83,6 @@ public class PriorityQueueTest {
         assertEquals(4, linkedListPriorityQueue.count());
     }
 
-    @Ignore
     @Test
     public void ensureThatDequeuingAnElementFromTheEndOfThePriorityQueueWithMultipleElementsProperlyDequeuesThatElement() {
         linkedListPriorityQueue.enqueue(new Float(99.3), new Float(7.4), TEST_VALUE_1);
@@ -96,6 +95,46 @@ public class PriorityQueueTest {
 
         String valueForNodeWithHighestPriority = linkedListPriorityQueue.dequeueA();
         assertEquals(TEST_VALUE_1, valueForNodeWithHighestPriority);
+        assertEquals(6, linkedListPriorityQueue.count());
+    }
+
+    @Ignore
+    @Test
+    public void ensureThatDequeuingMultipleElementsRemovesAndReturnsElementsInTheProperOrder() {
+        linkedListPriorityQueue.enqueue(new Float(99.3), new Float(7.4), TEST_VALUE_1);
+        linkedListPriorityQueue.enqueue(new Float(189.3), new Float(7.4), TEST_VALUE_2);
+        linkedListPriorityQueue.enqueue(new Float(29.3), new Float(7.4), TEST_VALUE_3);
+        linkedListPriorityQueue.enqueue(new Float(69.3), new Float(7.4), TEST_VALUE_4);
+        linkedListPriorityQueue.enqueue(new Float(999.3), new Float(7.4), TEST_VALUE_5);
+        linkedListPriorityQueue.enqueue(new Float(449.3), new Float(7.4), TEST_VALUE_6);
+        linkedListPriorityQueue.enqueue(new Float(9.3), new Float(7.4), TEST_VALUE_7);
+
+        String valueForNodeWithHighestPriority = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_5, valueForNodeWithHighestPriority);
+        assertEquals(6, linkedListPriorityQueue.count());
+
+        String valueForNodeWithSecondHighestPriority = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_6, valueForNodeWithSecondHighestPriority);
+        assertEquals(6, linkedListPriorityQueue.count());
+
+        String valueForNodeWithThirdHighestPriority = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_2, valueForNodeWithThirdHighestPriority);
+        assertEquals(6, linkedListPriorityQueue.count());
+
+        String valueForNodeWithFourthHighestPriority = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_1, valueForNodeWithFourthHighestPriority);
+        assertEquals(6, linkedListPriorityQueue.count());
+
+        String valueForNodeWithFifthHighestPriority = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_4, valueForNodeWithFifthHighestPriority);
+        assertEquals(6, linkedListPriorityQueue.count());
+
+        String valueForNodeWithSixthHighestPriority = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_3, valueForNodeWithSixthHighestPriority);
+        assertEquals(6, linkedListPriorityQueue.count());
+
+        String valueForNodeWithSeventhHighestPriority = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_7, valueForNodeWithSeventhHighestPriority);
         assertEquals(6, linkedListPriorityQueue.count());
     }
 }
