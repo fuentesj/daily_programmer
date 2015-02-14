@@ -32,4 +32,14 @@ public class PriorityQueueTest {
         linkedListPriorityQueue.enqueue(new Float(19.5), new Float(2.2), "testValue4");
         assertEquals(4, linkedListPriorityQueue.count());
     }
+
+    @Test
+    public void ensureThatCallingClearWillActuallyClearOutThePriorityQueue() {
+        linkedListPriorityQueue.enqueue(new Float(9.3), new Float(7.4), "testValue1");
+        linkedListPriorityQueue.enqueue(new Float(3.5), new Float(8.4), "testValue2");
+        linkedListPriorityQueue.enqueue(new Float(0.3), new Float(1.8), "testValue3");
+        linkedListPriorityQueue.enqueue(new Float(19.5), new Float(2.2), "testValue4");
+        linkedListPriorityQueue.clear();
+        assertEquals(0, linkedListPriorityQueue.count());
+    }
 }
