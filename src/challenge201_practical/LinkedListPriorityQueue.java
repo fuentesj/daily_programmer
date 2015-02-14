@@ -62,13 +62,14 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
     public V dequeueA() {
         if (root == null) {
            return null;
-        } else if (root != null & root.next == null) {
+        } else if (root != null && root.next == null) {
             V onlyValue = root.getValue();
             root = null;
             return onlyValue;
         } else {
             Node<T, S, V> currentNode = root;
             T currentPriority = currentNode.getPriorityOne();
+            V currentValueWithMaxPriority = currentNode.getValue();
 
             Node<T, S, V> nextNode = currentNode.next;
             T nextPriority = nextNode.getPriorityOne();
@@ -77,13 +78,29 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
 
             while (nextNode != null) {
                 if (nextPriority.compareTo(currentPriority) == 1) {
+                    currentValueWithMaxPriority = nextNode.getValue();
                     previousNode = currentNode;
                 }
-                currentNode = nextNode;
-                nextNode = currentNode.next;
+
+                if (nextNode.next == null) {
+                    break;
+                } else {
+                    currentNode = nextNode;
+                    nextNode = currentNode.next;
+                    currentPriority = currentNode.getPriorityOne();
+                    nextPriority = nextNode.getPriorityOne();
+                }
             }
-            previousNode.next = previousNode.next.next;
-            return currentNode.getValue();
+            if (previousNode != null && previousNode.next.next != null) {
+                previousNode.next = previousNode.next.next;
+            } else {
+                if (currentValueWithMaxPriority.equals(currentNode.getValue())) {
+                    root = currentNode.next;
+                } else {
+                    root = currentNode;
+                }
+            }
+            return currentValueWithMaxPriority;
         }
     }
 
