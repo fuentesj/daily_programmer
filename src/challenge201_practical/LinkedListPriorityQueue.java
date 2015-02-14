@@ -10,14 +10,16 @@ public class LinkedListPriorityQueue<T, S, V> implements Iterable<LinkedListPrio
 
     public static class Node<T, S, V> {
 
-        private V value;
         private T priorityOne;
         private S priorityTwo;
+        private V value;
+        private Node<T, S, V> next;
 
-        public Node(V value, T priorityOne, S priorityTwo) {
+        public Node(T priorityOne, S priorityTwo, V value, Node<T, S, V> next) {
             this.value = value;
             this.priorityOne = priorityOne;
             this.priorityTwo = priorityTwo;
+            this.next = next;
         }
 
         public V getValue() {
@@ -43,10 +45,19 @@ public class LinkedListPriorityQueue<T, S, V> implements Iterable<LinkedListPrio
         public void setPriorityTwo(S priorityTwo) {
             this.priorityTwo = priorityTwo;
         }
+
+        public Node<T, S, V> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<T, S, V> next) {
+            this.next = next;
+        }
     }
 
     public boolean enqueue(T firstPriority, S secondPriority, V value) {
-        return true;
+        root = new Node<>(firstPriority,secondPriority, value, root);
+        return (root != null);
     }
 
     public V dequeueA() {
@@ -55,6 +66,20 @@ public class LinkedListPriorityQueue<T, S, V> implements Iterable<LinkedListPrio
 
     public V dequeueB() {
         return root.getValue();
+    }
+
+    public int count() {
+        if (root == null) {
+            return 0;
+        } else {
+            int counter = 0;
+            Node<T, S, V> counterReference = root;
+            while (counterReference != null) {
+                counter++;
+                counterReference = counterReference.next;
+            }
+            return counter;
+        }
     }
 
     public Iterator<Node<T,S, V>> iterator() {
