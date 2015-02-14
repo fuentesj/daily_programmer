@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class PriorityQueueTest {
 
+    public static final String SINGLE_VALUE = "testValue1";
     LinkedListPriorityQueue<Float, Float, String> linkedListPriorityQueue;
 
     @Before
@@ -41,5 +42,24 @@ public class PriorityQueueTest {
         linkedListPriorityQueue.enqueue(new Float(19.5), new Float(2.2), "testValue4");
         linkedListPriorityQueue.clear();
         assertEquals(0, linkedListPriorityQueue.count());
+    }
+
+    @Test
+    public void ensureThatDequeuingAnElementFromAPriorityQueueWithOnlyOneElementWillReturnThatElementAndEffectivelyClearTheList() {
+        linkedListPriorityQueue.enqueue(new Float(9.3), new Float(7.4), SINGLE_VALUE);
+        String singleValue = linkedListPriorityQueue.dequeueA();
+        assertEquals(SINGLE_VALUE, singleValue);
+        assertEquals(0, linkedListPriorityQueue.count());
+    }
+
+    @Test
+    public void ensureThatDequeuingAnElementFromAPriorityQueueWithTwoElementsProperlyDequeuesThatElement() {
+        linkedListPriorityQueue.enqueue(new Float(9.3), new Float(7.4), "testValue1");
+        linkedListPriorityQueue.enqueue(new Float(23.5), new Float(8.4), "testValue2");
+
+        String valueForNodeWithHighestPriority = linkedListPriorityQueue.dequeueA();
+        assertEquals("testValue2", valueForNodeWithHighestPriority);
+        assertEquals(1, linkedListPriorityQueue.count());
+
     }
 }
