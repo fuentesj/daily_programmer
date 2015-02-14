@@ -69,7 +69,8 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
         } else {
             Node<T, S, V> currentNode = root;
             T currentPriority = currentNode.getPriorityOne();
-            V currentValueWithMaxPriority = currentNode.getValue();
+            Node<T, S, V> currentMaxNode = currentNode;
+            V currentValueWithMaxPriority = currentMaxNode.getValue();
 
             Node<T, S, V> nextNode = currentNode.next;
             T nextPriority = nextNode.getPriorityOne();
@@ -77,7 +78,8 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
             Node<T, S, V> previousNode = null;
 
             while (nextNode != null) {
-                if (nextPriority.compareTo(currentPriority) == 1) {
+                if (nextPriority.compareTo(currentPriority) == 1 && nextPriority.compareTo(currentMaxNode.priorityOne) == 1) {
+                    currentMaxNode = nextNode;
                     currentValueWithMaxPriority = nextNode.getValue();
                     previousNode = currentNode;
                 }
@@ -94,13 +96,13 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
             if (previousNode != null) {
                 previousNode.next = previousNode.next.next;
             } else {
-                if (currentValueWithMaxPriority.equals(currentNode.getValue())) {
+                if (currentMaxNode.getValue().equals(currentNode.getValue())) {
                     root = currentNode.next;
                 } else {
                     root = currentNode;
                 }
             }
-            return currentValueWithMaxPriority;
+            return currentMaxNode.getValue();
         }
     }
 
