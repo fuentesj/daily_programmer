@@ -91,7 +91,7 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
                     nextPriority = nextNode.getPriorityOne();
                 }
             }
-            if (previousNode != null && previousNode.next.next != null) {
+            if (previousNode != null) {
                 previousNode.next = previousNode.next.next;
             } else {
                 if (currentValueWithMaxPriority.equals(currentNode.getValue())) {
