@@ -4,7 +4,7 @@ import java.util.Iterator;
 /**
  * Created by Jonathan on 2/11/15.
  */
-public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable, V> implements Iterable<LinkedListPriorityQueue.Node<T, S, V>>{
+public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable, V> {
 
     private Node<T, S, V> root;
 
@@ -106,30 +106,4 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
    public void clear() {
         root = null;
     }
-
-    public Iterator<Node<T, S, V>> iterator() {
-        return new LinkedListIterator();
-    }
-
-    private class LinkedListIterator implements Iterator {
-
-        private LinkedListPriorityQueue.Node<T, S, V> current;
-
-        LinkedListIterator() {
-            current = root;
-        }
-
-        public boolean hasNext() {
-            if (current != null) {
-                return (current.next != null);
-            }
-            return false;
-        }
-
-        public LinkedListPriorityQueue.Node<T, S, V> next() {
-
-            return current;
-       }
-    }
-
 }
