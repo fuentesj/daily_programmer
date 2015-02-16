@@ -1,7 +1,6 @@
 package challenge201_practical;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * Created by Jonathan on 2/11/15.
