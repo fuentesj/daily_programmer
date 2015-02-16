@@ -26,13 +26,13 @@ public class LinkedListPriorityQueueTest {
     }
 
     @Test
-    public void ensureAddingOneElementToThePriorityQueueActuallyAddsThatElement() {
+    public void ensureAddingOneElementOfTypeAToThePriorityQueueActuallyAddsThatElement() {
         linkedListPriorityQueue.enqueue(new Float(4.5), new Float(2.5), TEST_VALUE_1);
         assertEquals(1, linkedListPriorityQueue.count());
     }
 
     @Test
-    public void ensureAddingMultipleElementsToThePriorityQueueActuallyAddsThoseElements() {
+    public void ensureAddingMultipleElementsOfTypeAToThePriorityQueueActuallyAddsThoseElements() {
         linkedListPriorityQueue.enqueue(new Float(9.3), new Float(7.4), TEST_VALUE_1);
         linkedListPriorityQueue.enqueue(new Float(3.5), new Float(8.4), TEST_VALUE_2);
         linkedListPriorityQueue.enqueue(new Float(0.3), new Float(1.8), TEST_VALUE_3);
@@ -51,7 +51,7 @@ public class LinkedListPriorityQueueTest {
     }
 
     @Test
-    public void ensureThatDequeuingAnElementFromAPriorityQueueWithOnlyOneElementWillReturnThatElementAndEffectivelyClearTheList() {
+    public void ensureThatDequeuingAnElementOfTypeAFromThePriorityQueueWithOnlyOneElementWillReturnThatElementAndEffectivelyClearTheList() {
         linkedListPriorityQueue.enqueue(new Float(9.3), new Float(7.4), TEST_VALUE_1);
         String singleValue = linkedListPriorityQueue.dequeueA();
         assertEquals(TEST_VALUE_1, singleValue);
@@ -59,7 +59,7 @@ public class LinkedListPriorityQueueTest {
     }
 
     @Test
-    public void ensureThatDequeuingAnElementFromAPriorityQueueWithTwoElementsProperlyDequeuesThatElement() {
+    public void ensureThatDequeuingAnElementOfTypeAFromThePriorityQueueWithTwoElementsProperlyDequeuesThatElement() {
         linkedListPriorityQueue.enqueue(new Float(9.3), new Float(7.4), TEST_VALUE_1);
         linkedListPriorityQueue.enqueue(new Float(23.5), new Float(8.4), TEST_VALUE_2);
 
@@ -70,7 +70,7 @@ public class LinkedListPriorityQueueTest {
     }
 
     @Test
-    public void ensureThatDequeuingAnElementThatIsInTheMiddleOfThePriorityQueueWithMultipleElementsProperlyDequeuesThatElement() {
+    public void ensureThatDequeuingAnElementOfTypeAThatIsInTheMiddleOfThePriorityQueueWithMultipleElementsOfTypeAProperlyDequeuesThatElement() {
         linkedListPriorityQueue.enqueue(new Float(9.3), new Float(7.4), TEST_VALUE_1);
         linkedListPriorityQueue.enqueue(new Float(23.5), new Float(8.4), TEST_VALUE_2);
         linkedListPriorityQueue.enqueue(new Float(67.0), new Float(8.4), TEST_VALUE_3);
@@ -83,7 +83,7 @@ public class LinkedListPriorityQueueTest {
     }
 
     @Test
-    public void ensureThatDequeuingAnElementFromTheEndOfThePriorityQueueWithMultipleElementsProperlyDequeuesThatElement() {
+    public void ensureThatDequeuingAnElementOfTypeAFromTheEndOfThePriorityQueueWithMultipleElementsOfOnlyTypeAProperlyDequeuesThatElement() {
         linkedListPriorityQueue.enqueue(new Float(99.3), new Float(7.4), TEST_VALUE_1);
         linkedListPriorityQueue.enqueue(new Float(89.3), new Float(7.4), TEST_VALUE_2);
         linkedListPriorityQueue.enqueue(new Float(79.3), new Float(7.4), TEST_VALUE_3);
@@ -98,7 +98,7 @@ public class LinkedListPriorityQueueTest {
     }
 
     @Test
-    public void ensureThatDequeuingAnElementFromTheMiddleOfThePriorityQueueProperlyDequeuesThatElement() {
+    public void ensureThatDequeuingAnElementOfTypeAFromTheMiddleOfThePriorityQueueProperlyDequeuesThatSingleElement() {
 
         linkedListPriorityQueue.enqueue(new Float(99.3), new Float(7.4), TEST_VALUE_1);
         linkedListPriorityQueue.enqueue(new Float(189.3), new Float(7.4), TEST_VALUE_2);
@@ -115,7 +115,7 @@ public class LinkedListPriorityQueueTest {
     }
 
     @Test
-    public void ensureThatDequeuingMultipleElementsRemovesAndReturnsElementsInTheProperOrder() {
+    public void ensureThatDequeuingMultipleElementsOfTypeARemovesAndReturnsThoseElementsInTheProperOrder() {
         linkedListPriorityQueue.enqueue(new Float(99.3), new Float(7.4), TEST_VALUE_1);
         linkedListPriorityQueue.enqueue(new Float(189.3), new Float(7.4), TEST_VALUE_2);
         linkedListPriorityQueue.enqueue(new Float(29.3), new Float(7.4), TEST_VALUE_3);
@@ -157,5 +157,33 @@ public class LinkedListPriorityQueueTest {
     public void ensureThatDequeuingAnEmptyPriorityQueueResultsInNullBeingReturned() {
         String nullReference = linkedListPriorityQueue.dequeueA();
         assertNull(nullReference);
+    }
+
+    @Test
+    public void ensureDequeuingElementsWithDifferentPrioritiesWorksAsExpected() {
+        linkedListPriorityQueue.enqueue(new Float(99.8), new Float(6.3), TEST_VALUE_1);
+        linkedListPriorityQueue.enqueue(new Float(189.4), new Float(227.1), TEST_VALUE_2);
+        linkedListPriorityQueue.enqueue(new Float(29.3), new Float(7.7), TEST_VALUE_3);
+        linkedListPriorityQueue.enqueue(new Float(69.4), new Float(1093.4), TEST_VALUE_4);
+        linkedListPriorityQueue.enqueue(new Float(999.5), new Float(214.9), TEST_VALUE_5);
+        linkedListPriorityQueue.enqueue(new Float(449.6), new Float(1.2), TEST_VALUE_6);
+        linkedListPriorityQueue.enqueue(new Float(9.1), new Float(7.4), TEST_VALUE_7);
+
+        String valueForNodeWithHighestPriorityOfTypeB = linkedListPriorityQueue.dequeueB();
+        assertEquals(TEST_VALUE_4, valueForNodeWithHighestPriorityOfTypeB);
+        assertEquals(6, linkedListPriorityQueue.count());
+
+        String valueForNodeWithHighestPriorityOfTypeA = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_5, valueForNodeWithHighestPriorityOfTypeA);
+        assertEquals(5, linkedListPriorityQueue.count());
+
+        String valueForNodeWithSecondHighestPriorityOfTypeB = linkedListPriorityQueue.dequeueB();
+        assertEquals(TEST_VALUE_2, valueForNodeWithSecondHighestPriorityOfTypeB);
+        assertEquals(4, linkedListPriorityQueue.count());
+
+        String valueForNodeWithSecondHighestPriorityOfTypeA = linkedListPriorityQueue.dequeueA();
+        assertEquals(TEST_VALUE_6, valueForNodeWithSecondHighestPriorityOfTypeA);
+        assertEquals(3, linkedListPriorityQueue.count());
+
     }
 }
