@@ -5,11 +5,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by jon on 2/14/15.
  */
-public class PriorityQueueTest {
+public class LinkedListPriorityQueueTest {
 
     public static final String TEST_VALUE_1 = "testValue1";
     public static final String TEST_VALUE_2 = "testValue2";
@@ -151,5 +152,11 @@ public class PriorityQueueTest {
         String valueForNodeWithSeventhHighestPriority = linkedListPriorityQueue.dequeueA();
         assertEquals(TEST_VALUE_7, valueForNodeWithSeventhHighestPriority);
         assertEquals(0, linkedListPriorityQueue.count());
+    }
+
+    @Test
+    public void ensureThatDequeuingAnEmptyPriorityQueueResultsInNullBeingReturned() {
+        String nullReference = linkedListPriorityQueue.dequeueA();
+        assertNull(nullReference);
     }
 }

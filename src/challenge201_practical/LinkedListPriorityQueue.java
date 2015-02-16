@@ -1,12 +1,18 @@
 package challenge201_practical;
 
-import java.util.Iterator;
+import java.util.function.Supplier;
+
 /**
  * Created by Jonathan on 2/11/15.
  */
 public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable, V> {
 
     private Node<T, S, V> root;
+
+    private enum PriorityType {
+        PRIORITY_TYPE_A,
+        PRIORITy_TYPE_B
+    }
 
     public static class Node<T extends Comparable, S extends Comparable, V> {
         private T priorityOne;
@@ -60,55 +66,61 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
     }
 
     public V dequeueA() {
+        return generalDequeue(PriorityType.PRIORITY_TYPE_A);
+    }
+
+    public V dequeueB() {
+        return generalDequeue(PriorityType.PRIORITy_TYPE_B);
+    }
+
+    private V generalDequeue(PriorityType priorityType) {
         if (root == null) {
-           return null;
+            return null;
         } else if (root != null && root.next == null) {
             V onlyValue = root.getValue();
             root = null;
             return onlyValue;
         } else {
             Node<T, S, V> currentNode = root;
-            T currentPriority = currentNode.getPriorityOne();
             Node<T, S, V> currentMaxNode = currentNode;
-            V currentValueWithMaxPriority = currentMaxNode.getValue();
-
             Node<T, S, V> nextNode = currentNode.next;
-            T nextPriority = nextNode.getPriorityOne();
-
-            Node<T, S, V> previousNode = null;
-
-            while (nextNode != null) {
-                if (nextPriority.compareTo(currentPriority) == 1 && nextPriority.compareTo(currentMaxNode.priorityOne) == 1) {
-                    currentMaxNode = nextNode;
-                    currentValueWithMaxPriority = nextNode.getValue();
-                    previousNode = currentNode;
-                }
-
-                if (nextNode.next == null) {
-                    break;
-                } else {
-                    currentNode = nextNode;
-                    nextNode = currentNode.next;
-                    currentPriority = currentNode.getPriorityOne();
-                    nextPriority = nextNode.getPriorityOne();
-                }
-            }
-            if (previousNode != null) {
-                previousNode.next = previousNode.next.next;
+            if (priorityType == PriorityType.PRIORITY_TYPE_A) {
+                return findElementWithHighestPriority(currentNode, currentMaxNode, nextNode, currentNode::getPriorityOne, nextNode::getPriorityOne);
             } else {
-                if (currentMaxNode.getValue().equals(currentNode.getValue())) {
-                    root = currentNode.next;
-                } else {
-                    root = currentNode;
-                }
+                return findElementWithHighestPriority(currentNode, currentMaxNode, nextNode, currentNode::getPriorityTwo, nextNode::getPriorityTwo);
             }
-            return currentMaxNode.getValue();
         }
     }
 
-    public V dequeueB() {
-        return root.getValue();
+    private V findElementWithHighestPriority(Node<T, S, V> currentNode, Node<T, S, V> currentMaxNode, Node<T, S, V> nextNode, Supplier<? extends Comparable> currentNodeSupplier, Supplier<? extends Comparable> nextNodeSupplier) {
+        Comparable nextPriority = nextNodeSupplier.get();
+        Node<T, S, V> previousNode = null;
+        while (nextNode != null) {
+            if (nextPriority.compareTo(currentNodeSupplier.get()) == 1 && nextPriority.compareTo(currentMaxNode.priorityOne) == 1) {
+                currentMaxNode = nextNode;
+                previousNode = currentNode;
+            }
+
+            if (nextNode.next == null) {
+                break;
+            } else {
+                currentNode = nextNode;
+                nextNode = currentNode.next;
+                nextPriority = nextNode.getPriorityOne();
+            }
+        }
+        if (previousNode != null) {
+            previousNode.next = previousNode.next.next;
+        } else {
+            if (currentMaxNode.getValue().equals(currentNode.getValue())) {
+                root = currentNode.next;
+            } else {
+                root = currentNode;
+            }
+        }
+        return currentMaxNode.getValue();
     }
+
     public int count() {if (root == null) {
            return 0;
         } else {
