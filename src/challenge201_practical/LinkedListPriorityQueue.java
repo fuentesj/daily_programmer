@@ -1,5 +1,6 @@
 package challenge201_practical;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -85,18 +86,18 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
             Node<T, S, V> currentMaxNode = currentNode;
             Node<T, S, V> nextNode = currentNode.next;
             if (priorityType == PriorityType.PRIORITY_TYPE_A) {
-                return findElementWithHighestPriority(currentNode, currentMaxNode, nextNode, currentNode::getPriorityOne, nextNode::getPriorityOne);
+                return findElementWithHighestPriority(currentNode, currentMaxNode, nextNode, Node::getPriorityOne);
             } else {
-                return findElementWithHighestPriority(currentNode, currentMaxNode, nextNode, currentNode::getPriorityTwo, nextNode::getPriorityTwo);
+                return findElementWithHighestPriority(currentNode, currentMaxNode, nextNode, Node::getPriorityTwo);
             }
         }
     }
 
-    private V findElementWithHighestPriority(Node<T, S, V> currentNode, Node<T, S, V> currentMaxNode, Node<T, S, V> nextNode, Supplier<? extends Comparable> currentNodeSupplier, Supplier<? extends Comparable> nextNodeSupplier) {
-        Comparable nextPriority = nextNodeSupplier.get();
+    private V findElementWithHighestPriority(Node<T, S, V> currentNode, Node<T, S, V> currentMaxNode, Node<T, S, V> nextNode, Function<Node, ? extends Comparable> nodePriorityGetterFunction) {
+        Comparable nextPriority = nodePriorityGetterFunction.apply(nextNode);
         Node<T, S, V> previousNode = null;
         while (nextNode != null) {
-            if (nextPriority.compareTo(currentMaxNode.getPriorityOne()) == 1) {
+            if (nextPriority.compareTo(nodePriorityGetterFunction.apply(currentMaxNode)) == 1) {
                 currentMaxNode = nextNode;
                 previousNode = currentNode;
             }
@@ -106,7 +107,7 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
             } else {
                 currentNode = nextNode;
                 nextNode = currentNode.next;
-                nextPriority = nextNode.getPriorityOne();
+                nextPriority = nodePriorityGetterFunction.apply(nextNode);
             }
         }
         if (previousNode != null) {
