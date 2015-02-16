@@ -94,10 +94,9 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
     }
 
     private V findElementWithHighestPriority(Node<T, S, V> currentNode, Node<T, S, V> currentMaxNode, Node<T, S, V> nextNode, Function<Node, ? extends Comparable> nodePriorityGetterFunction) {
-        Comparable nextPriority = nodePriorityGetterFunction.apply(nextNode);
         Node<T, S, V> previousNode = null;
         while (nextNode != null) {
-            if (nextPriority.compareTo(nodePriorityGetterFunction.apply(currentMaxNode)) == 1) {
+            if ((nodePriorityGetterFunction.apply(nextNode)).compareTo(nodePriorityGetterFunction.apply(currentMaxNode)) == 1) {
                 currentMaxNode = nextNode;
                 previousNode = currentNode;
             }
@@ -107,7 +106,6 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
             } else {
                 currentNode = nextNode;
                 nextNode = currentNode.next;
-                nextPriority = nodePriorityGetterFunction.apply(nextNode);
             }
         }
         if (previousNode != null) {
