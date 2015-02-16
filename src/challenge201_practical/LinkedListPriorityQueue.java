@@ -96,7 +96,7 @@ public class LinkedListPriorityQueue<T extends Comparable, S extends Comparable,
         Comparable nextPriority = nextNodeSupplier.get();
         Node<T, S, V> previousNode = null;
         while (nextNode != null) {
-            if (nextPriority.compareTo(currentNodeSupplier.get()) == 1 && nextPriority.compareTo(currentMaxNode.priorityOne) == 1) {
+            if (nextPriority.compareTo(currentMaxNode.getPriorityOne()) == 1) {
                 currentMaxNode = nextNode;
                 previousNode = currentNode;
             }
