@@ -1,5 +1,9 @@
 package challenge202_easy;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,20 +15,15 @@ public class Solution {
 
     public static void main(String[] args) {
 
-        String[] currentInputArray = new String[1000];
-        System.out.print("Please enter binary here: ");
-        Scanner scanner = new Scanner(System.in);
-        String nextLine = scanner.nextLine();
-        List<Integer> charCodeList = new ArrayList<>();
-        while (!nextLine.equals("END")) {
-            currentInputArray = nextLine.split("");
-            charCodeList.addAll(processInputArray(currentInputArray));
-            nextLine = scanner.nextLine();
-        }
+        try (InputStream inputStream = new FileInputStream("input-files/challenge202/input-1.txt")) {
 
-        for (Integer charCode : charCodeList) {
-            Character character = new Character((char) charCode.intValue());
-            System.out.println(character);
+            byte[] byteArray = new byte[100];
+
+            int isByteSuccessfullyRead = inputStream.read(byteArray);
+
+
+        } catch (Exception exception) {
+            System.out.println(exception.getStackTrace());
         }
 
     }
