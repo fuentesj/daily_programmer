@@ -1,11 +1,7 @@
 package challenge202_easy;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 /**
@@ -14,38 +10,36 @@ import java.util.Scanner;
 public class Solution {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter in file name: ");
+        String inputFilename = scanner.nextLine();
 
-        try (InputStream inputStream = new FileInputStream("input-files/challenge202/input-1.txt")) {
-
-            byte[] byteArray = new byte[100];
-
-            int isByteSuccessfullyRead = inputStream.read(byteArray);
-
-
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("input-files/challenge202/" + inputFilename))) {
+            String nextLine = bufferedReader.readLine();
+            StringBuilder outputStringBuilder = new StringBuilder();
+            while (nextLine != null) {
+                if (nextLine.length() % 8 != 0) {
+                    nextLine += bufferedReader.readLine();
+                } else {
+                    outputStringBuilder.append(processInputString(nextLine));
+                    nextLine = bufferedReader.readLine();
+                }
+            }
+            System.out.println(outputStringBuilder.toString());
         } catch (Exception exception) {
-            System.out.println(exception.getStackTrace());
+            System.out.println(exception.toString());
         }
-
     }
 
-    private static List<Integer> processInputArray(String[] currentInputArray) {
-        List<Integer> userInputStringList = new ArrayList<>();
+    private static String processInputString(String inputString) {
         StringBuilder stringBuilder = new StringBuilder();
-
-        int nextStartingIndex = 0;
-        int nextEndingIndex = 8;
-        while (nextEndingIndex < currentInputArray.length) {
-
-            for (int currentIndex = nextStartingIndex; currentIndex < nextEndingIndex; currentIndex++) {
-                stringBuilder.append(currentInputArray[currentIndex]);
-            }
-            userInputStringList.add(Integer.parseInt(stringBuilder.toString(), 2));
-            stringBuilder.delete(0, stringBuilder.length());
-            nextStartingIndex = nextEndingIndex;
-            nextEndingIndex += 8;
+        int currentIndex = 0;
+        while (currentIndex < inputString.length()) {
+            String inputSubstring = inputString.substring(currentIndex, currentIndex + 8);
+            int charCode = Integer.parseInt(inputSubstring, 2);
+            stringBuilder.append(new Character((char) charCode));
+            currentIndex += 8;
         }
-
-        return userInputStringList;
-
+        return stringBuilder.toString();
     }
 }
