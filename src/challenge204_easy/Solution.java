@@ -2,8 +2,6 @@ package challenge204_easy;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,32 +19,30 @@ public class Solution {
             Scanner scannner = new Scanner(System.in);
             String stringToSearchFor = scannner.nextLine();
 
-            List<String> passageLineList = new ArrayList<>();
+            StringBuilder currentPassageBuilder = new StringBuilder();
             boolean isPassageFound = false;
-
-            Pattern pattern = Pattern.compile("^\t{4}");
+            Pattern pattern = Pattern.compile("\\s{4}\\w*");
             Matcher matcher;
 
             String nextLine = bufferedReader.readLine();
-            while (nextLine != null && !isPassageFound) {
+            while (!isPassageFound) {
                 matcher = pattern.matcher(nextLine);
-                if (matcher.matches()) {
-                    passageLineList.add(nextLine.trim());
-                } else if (!passageLineList.isEmpty() && passageLineList.contains(stringToSearchFor)) {
-                    break;
+                if (matcher.find()) {
+                    currentPassageBuilder.append(nextLine);
                 } else {
-                    passageLineList.clear();
+                    String currentPassageString = currentPassageBuilder.toString();
+                    if (currentPassageString.contains(stringToSearchFor)) {
+                        isPassageFound = true;
+                    } else {
+                        currentPassageBuilder.setLength(0);
+                    }
                 }
                 nextLine = bufferedReader.readLine();
             }
 
-            if (passageLineList.contains(stringToSearchFor)) {
-                for(String line : passageLineList) {
-                    System.out.println(line);
-                }
+            for (String passageLine : currentPassageBuilder.toString().split("\\s{4}")) {
+                System.out.println(passageLine);
             }
-
-
         } catch (Exception exception) {
             System.out.println(exception.getStackTrace());
         }
