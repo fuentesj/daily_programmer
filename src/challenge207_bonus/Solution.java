@@ -51,14 +51,13 @@ public class Solution {
                     }
                 }
             }
-            
+
             Set<String> visitedAuthors = new HashSet<>();
-            for (String author : authorGraph.keySet()){
-                Integer currentErdosNumber = findErdos(author, authorGraph, 0, visitedAuthors);
+            for (String author : authorGraph.keySet()) {
+                Integer currentErdosNumber = findErdos(author, authorGraph, 1, visitedAuthors);
                 System.out.println(author + " : " + currentErdosNumber);
                 visitedAuthors.clear();
             }
-
         } catch (Exception exception) {
             System.out.println(exception.getStackTrace());
         }
@@ -66,28 +65,18 @@ public class Solution {
 
 
     private static int findErdos(String currentAuth, Map<String, Set<String>> authorMap, Integer runningErdosNum, Set<String> visitedAuthors) {
-        if (visitedAuthors.contains(currentAuth)) {
+        if (visitedAuthors.contains(currentAuth)
+                || authorMap.get(currentAuth) == null
+                || authorMap.get(currentAuth).contains("Erdös, P.")) {
             return runningErdosNum;
         } else {
-            if (authorMap.get(currentAuth) == null) {
-                return runningErdosNum;
-            } else if (authorMap.get(currentAuth).contains("Erdös, P.")) {
-                runningErdosNum += 1;
-                return runningErdosNum;
-            } else {
-                visitedAuthors.add(currentAuth);
-                Integer currentErdosNum = 100;
-                for (String associatedAuthor : authorMap.get(currentAuth)) {
-                    currentErdosNum = findErdos(associatedAuthor, authorMap, 1, visitedAuthors);
-                    if (currentErdosNum < runningErdosNum) {
-                        runningErdosNum = currentErdosNum;
-                    }
-                    visitedAuthors.add(associatedAuthor);
-                }
-                return runningErdosNum;
+            visitedAuthors.add(currentAuth);
+            runningErdosNum += 1;
+            List<Integer> pathCosts = new ArrayList<>();
+            for (String associatedAuthor : authorMap.get(currentAuth)) {
+                pathCosts.add(findErdos(associatedAuthor, authorMap, runningErdosNum, visitedAuthors));
             }
+            return Collections.min(pathCosts);
         }
     }
-
-
 }
