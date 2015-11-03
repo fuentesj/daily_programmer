@@ -30,7 +30,8 @@ public class Solution {
                         } else if (string.equals("v")) {
                             System.out.println();
                         } else {
-                            System.out.println("");
+                            System.out.println("Invalid character");
+                            break;
                         }
                     }
                 }
